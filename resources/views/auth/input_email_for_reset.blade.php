@@ -1,4 +1,5 @@
 @extends('layouts.auth-layout')
+@push('title') şifrəni sıfırla @endpush
 @push('styles')
     <style>
         .invalid-feedback {

@@ -1,4 +1,5 @@
 @extends('layouts.auth-layout')
+@push('title') sistemə giriş @endpush
 @push('styles')
     <style>
         .invalid-feedback {
