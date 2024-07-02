@@ -7,6 +7,7 @@ use App\Http\Requests\Passwords\SendToEmailRequest;
 use App\Http\Requests\Passwords\ResetRequest;
 use App\Http\Repositories\UserRepository;
 use App\Services\CrudService;
+use App\Services\LogoutService;
 use App\Services\MailService;
 use Illuminate\Support\Facades\Log;
 use Exception;
@@ -17,7 +18,8 @@ class ForgotPasswordController extends Controller
         public UserRepository $userRepository,
         public CodeService $codeService,
         public MailService $mailService,
-        public CrudService $crudService
+        public CrudService $crudService,
+        public LogoutService $logoutService,
     ) {
     }
 
@@ -41,7 +43,7 @@ class ForgotPasswordController extends Controller
             $token = $this->codeService->generateRandomCode();
             $this->crudService->update($user, ['reset_token' => $token]);
             $this->mailService->sendMail('emails.reset-password', ['token' => $token, 'user' => $user], $user->email, 'Şifrəni sıfırlama');
-
+            $this->logoutService->logout();
             return redirect()->route('login')->with('status', 'Şifrəni sıfırlama linki emailinizə göndərildi.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Şifrə sıfırlama prosesi zamanı xəta baş verdi. Zəhmət olmasa, yenidən cəhd edin.');

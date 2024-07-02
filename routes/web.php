@@ -22,6 +22,7 @@ Route::post('/reset-password-send-to-email', [\App\Http\Controllers\ForgotPasswo
 Route::get('/dashboard', [\App\Http\Controllers\SystemController::class, 'index'])->name('dashboard');
 Route::get('/forgot-password', [\App\Http\Controllers\ForgotPasswordController::class, 'input_email'])->name('password.request');
 Route::post('/forgot-password', [\App\Http\Controllers\ForgotPasswordController::class, 'send_to_email'])->name('reset-password-send-to-email');
+
 Route::get('/reset-password/{token}', [\App\Http\Controllers\ForgotPasswordController::class, 'showResetForm'])->name('reset-password-form');
 Route::post('/reset-password', [\App\Http\Controllers\ForgotPasswordController::class, 'reset'])->name('reset-password');
 
