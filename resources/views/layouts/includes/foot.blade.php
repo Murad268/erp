@@ -7,7 +7,6 @@
 <script src="{{ asset('assets/js/tailwick.bundle.js') }}"></script>
 <!--apexchart js-->
 <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-<script src="https://apexcharts.com/samples/stock-prices.js"></script>
 
 <!--dashboard analytics init js-->
 <script src="{{ asset('assets/js/pages/dashboards-analytics.init.js') }}"></script>
