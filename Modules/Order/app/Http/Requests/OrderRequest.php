@@ -20,7 +20,7 @@ class OrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order_status' => 'required|integer',
+            'order_status' => 'required',
             'customer_name' => 'required|string|max:255',
             'customer_surname' => 'required|string|max:255',
             'customer_email' => 'required|email|max:255',

@@ -23,6 +23,14 @@ class ProductController extends Controller
     ) {
     }
 
+    private function loadCategoriesAndSuppliers()
+    {
+        return [
+            'categories' => $this->categoryRepository->all(),
+            'suppliers' => $this->supplierRepository->all()
+        ];
+    }
+
     public function index(Request $request)
     {
         $filters = [
@@ -34,16 +42,14 @@ class ProductController extends Controller
         $perPage = 40;
         $items = $this->productRepository->filter($filters, $perPage);
 
-        $categories = $this->categoryRepository->all();
-        $suppliers = $this->supplierRepository->all();
-        return view('product::index', compact('items', 'filters', 'categories', 'suppliers'));
+        $data = $this->loadCategoriesAndSuppliers();
+        return view('product::index', array_merge($data, compact('items', 'filters')));
     }
 
     public function create()
     {
-        $categories = $this->categoryRepository->all();
-        $suppliers = $this->supplierRepository->all();
-        return view('product::create', compact('categories', 'suppliers'));
+        $data = $this->loadCategoriesAndSuppliers();
+        return view('product::create', $data);
     }
 
     public function store(ProductRequest $request)
@@ -64,9 +70,8 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $categories = $this->categoryRepository->all();
-        $suppliers = $this->supplierRepository->all();
-        return view('product::edit', compact('product', 'categories', 'suppliers'));
+        $data = $this->loadCategoriesAndSuppliers();
+        return view('product::edit', array_merge($data, compact('product')));
     }
 
     public function update(ProductRequest $request, Product $product)

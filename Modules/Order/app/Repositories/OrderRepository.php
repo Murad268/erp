@@ -22,7 +22,7 @@ class OrderRepository
     }
     public function search($q, $perPage)
     {
-        return $this->modelClass::where('title', 'like', '%' . $q . '%')->paginate($perPage);
+        return $this->modelClass::where('order_code', 'like', '%' . $q . '%')->orWhere('customer_name', 'like', '%' . $q . '%')->orWhere('customer_email', 'like', '%' . $q . '%')->paginate($perPage);
     }
 
     public function find($id)

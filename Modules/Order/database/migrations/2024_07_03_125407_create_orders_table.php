@@ -1,48 +1,34 @@
 <?php
 
-namespace App\Http\Requests;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class OrderRequest extends FormRequest
+class CreateOrdersTable extends Migration
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Run the migrations.
      */
-    public function authorize(): bool
+    public function up(): void
     {
-        return true;
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->string('order_code')->unique();
+            $table->string('order_status');
+            $table->string('customer_name');
+            $table->string('customer_surname');
+            $table->string('customer_email');
+            $table->string('phone');
+            $table->text('address');
+            $table->timestamps();
+        });
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Reverse the migrations.
      */
-    public function rules(): array
+    public function down(): void
     {
-        return [
-            'order_code' => 'required|string|max:255',
-            'order_status' => 'required|integer',
-            'customer_name' => 'required|string|max:255',
-            'customer_surname' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string',
-        ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     */
-    public function messages(): array
-    {
-        return [
-            'order_code.required' => 'Sifariş kodu mütləqdir.',
-            'order_status.required' => 'Sifariş statusu mütləqdir.',
-            'customer_name.required' => 'Müştərinin adı mütləqdir.',
-            'customer_surname.required' => 'Müştərinin soyadı mütləqdir.',
-            'customer_email.required' => 'Müştərinin emaili mütləqdir.',
-            'phone.required' => 'Telefon nömrəsi mütləqdir.',
-            'address.required' => 'Ünvan mütləqdir.',
-        ];
+        Schema::dropIfExists('orders');
     }
 }

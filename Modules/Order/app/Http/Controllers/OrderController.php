@@ -3,6 +3,7 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\CodeService;
 use Modules\Order\Http\Requests\OrderRequest;
 use App\Services\CrudService;
 use App\Services\RemoveService;
@@ -10,13 +11,14 @@ use Illuminate\Http\Request;
 use Modules\Category\Models\Category;
 use Modules\Order\Models\Order;
 use Modules\Order\Repositories\OrderRepository;
+use Modules\Product\Repositories\ProductRepository;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function __construct(public CrudService $crudService, public OrderRepository $orderRepository, public RemoveService $removeService)
+    public function __construct(public CrudService $crudService, public OrderRepository $orderRepository, public RemoveService $removeService, public CodeService $codeService, public ProductRepository $productRepository)
     {
     }
     public function index()
@@ -37,7 +39,9 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('order::create');
+        $products = $this->productRepository->all();
+
+        return view('order::create', compact('products'));
     }
 
     /**
@@ -46,8 +50,9 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         try {
-            $data = $request->all();
-            $this->crudService->create($this->orderRepository->getModel(), $data);
+            $data = $request->except('products');
+            $data['order_code'] = $this->codeService->generateRandomCode();
+            $this->crudService->create($this->orderRepository->getModel(), $data, 'products', $request->products);
             return redirect()->route('order.index')->with('status', 'Kateqoriya uğurla yaradıldı.');
         } catch (\Exception $e) {
             return redirect()->route('order.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
@@ -66,9 +71,11 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Order $order)
     {
-        return view('order::edit', compact('category'));
+        $products = $this->productRepository->all();
+
+        return view('order::edit', compact('order', 'products'));
     }
 
     /**
@@ -78,7 +85,7 @@ class OrderController extends Controller
     {
         try {
             $data = $request->all();
-            $this->crudService->update($order, $data);
+            $this->crudService->update($order, $data, 'products', $request->products);
             return redirect()->route('order.index')->with('status', 'Kateqoriya uğurla yeniləndi.');
         } catch (\Exception $e) {
             return redirect()->route('order.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
@@ -99,8 +106,8 @@ class OrderController extends Controller
 
         try {
             $models = $this->orderRepository->findWhereInGet($request->ids);
-            $this->removeService->deleteWhereIn($models);
-            return response()->json(['success' => true, 'success' =>  'Kateqoriya uğurla silindi.']);
+            $this->removeService->deleteWhereIn($models, true, 'products');
+            return response()->json(['success' => true, 'success' =>  'Məhsul uğurla silindi.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
         }
