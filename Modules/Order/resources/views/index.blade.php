@@ -65,8 +65,17 @@
                                             {{ $item->order_code }}
                                         </td>
                                         <td class="p-3 group-[.bordered]:border group-[.bordered]:border-slate-200 group-[.bordered]:dark:border-zink-500 sorting_1">
-                                            {{ $item->order_status }}
+                                            @if ($item->order_status == 1)
+                                                <button type="button" class="bg-blue-100 border-dashed text-blue-500 btn border-blue-500 hover:text-blue-500 hover:bg-blue-50 hover:border-blue-600 focus:text-blue-600 focus:bg-blue-50 focus:border-blue-600 active:text-blue-600 active:bg-blue-50 active:border-blue-600 dark:bg-zink-700 dark:ring-blue-400/20 dark:hover:bg-blue-800/20 dark:focus:bg-blue-800/20 dark:active:bg-blue-800/20">gözləmədə</button>
+                                            @elseif ($item->order_status == 2)
+                                                <button type="button" class="bg-yellow-100 border-dashed text-yellow-500 btn border-yellow-500 hover:text-yellow-500 hover:bg-yellow-50 hover:border-yellow-600 focus:text-yellow-600 focus:bg-yellow-50 focus:border-yellow-600 active:text-yellow-600 active:bg-yellow-50 active:border-yellow-600 dark:bg-zink-700 dark:ring-yellow-400/20 dark:hover:bg-yellow-800/20 dark:focus:bg-yellow-800/20 dark:active:bg-yellow-800/20">yerinə yetirilir</button>
+                                            @elseif ($item->order_status == 3)
+                                                <button type="button" class="bg-green-100 border-dashed text-green-500 btn border-green-500 hover:text-green-500 hover:bg-green-50 hover:border-green-600 focus:text-green-600 focus:bg-green-50 focus:border-green-600 active:text-green-600 active:bg-green-50 active:border-green-600 dark:bg-zink-700 dark:ring-green-400/20 dark:hover:bg-green-800/20 dark:focus:bg-green-800/20 dark:active:bg-green-800/20">tamamlandı</button>
+                                            @elseif ($item->order_status == 4)
+                                                <button type="button" class="bg-red-100 border-dashed text-red-500 btn border-red-500 hover:text-red-500 hover:bg-red-50 hover:border-red-600 focus:text-red-600 focus:bg-red-50 focus:border-red-600 active:text-red-600 active:bg-red-50 active:border-red-600 dark:bg-zink-700 dark:ring-red-400/20 dark:hover:bg-red-800/20 dark:focus:bg-red-800/20 dark:active:bg-red-800/20">ləğv edildi</button>
+                                            @endif
                                         </td>
+
                                         <td class="p-3 group-[.bordered]:border group-[.bordered]:border-slate-200 group-[.bordered]:dark:border-zink-500 sorting_1">
                                             {{ array_sum($item->products->pluck('price')->toArray()) }} AZN
                                         </td>

@@ -95,7 +95,7 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(OrderRepository $request, Order $order)
+    public function update(OrderRequest $request, Order $order)
     {
         try {
             $data = $request->all();

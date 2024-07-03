@@ -11,7 +11,8 @@
             <div class="grid grid-cols-1 gap-x-5 xl:grid-cols-10">
                 <div class="card col-span-2">
                     <div class="card-body">
-                        <form method="post" action="{{ route('order.store') }}">
+                        <form method="post" action="{{ route('order.update', $order->id) }}">
+                            @method('PATCH')
                             @csrf
                             <div class="grid grid-cols-1 gap-x-5 sm:grid-cols-2">
 
@@ -23,6 +24,7 @@
                                         <option value="3" {{ old('order_status', $order->order_status) == 3 ? 'selected' : '' }}>tamamlandı</option>
                                         <option value="4" {{ old('order_status', $order->order_status) == 4 ? 'selected' : '' }}>ləğv edildi</option>
                                     </select>
+
                                     @error('order_status')
                                 </div>
                                 <div class="mb-3">

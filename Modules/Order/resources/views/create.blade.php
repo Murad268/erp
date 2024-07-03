@@ -18,11 +18,12 @@
                                 <div class="mb-3">
                                     <label for="order_status" class="inline-block mb-2 text-base font-medium">Sifariş statusu<span class="text-red-500">*</span></label>
                                     <select id="order_status" name="order_status" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 select2">
-                                        <option value="gözləmədə" {{ old('order_status') == "" ? 'selected' : '' }}>gözləmədə</option>
-                                        <option value="yerinə yetirilir" {{ old('order_status') == "yerinə yetirilir" ? 'selected' : '' }}>yerinə yetirilir</option>
-                                        <option value="3" {{ old('tamamlandı') == "tamamlandı" ? 'selected' : '' }}>tamamlandı</option>
-                                        <option value="ləğv edildi" {{ old('order_status') == "ləğv edildi" ? 'selected' : '' }}>ləğv edildi</option>
+                                        <option value="1" {{ old('order_status') == "1" ? 'selected' : '' }}>gözləmədə</option>
+                                        <option value="2" {{ old('order_status') == "2" ? 'selected' : '' }}>yerinə yetirilir</option>
+                                        <option value="3" {{ old('order_status') == "3" ? 'selected' : '' }}>tamamlandı</option>
+                                        <option value="4" {{ old('order_status') == "4" ? 'selected' : '' }}>ləğv edildi</option>
                                     </select>
+
                                     @error('order_status')
                                 </div>
                                 <div class="mb-3">
