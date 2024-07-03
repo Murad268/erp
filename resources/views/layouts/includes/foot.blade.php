@@ -10,7 +10,7 @@
 
 <!--dashboard analytics init js-->
 <script src="{{ asset('assets/js/pages/dashboards-analytics.init.js') }}"></script>
-
+<script src="{{asset('assets/libs/ckeditor/ckeditor.js')}}"></script>
 <!-- App js -->
 <script src="{{ asset('assets/js/app.js') }}"></script>
 @stack('scripts')
