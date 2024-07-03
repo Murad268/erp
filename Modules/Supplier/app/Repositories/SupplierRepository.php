@@ -37,7 +37,7 @@ class SupplierRepository
 
     public function getModel()
     {
-        return $this->modelClass;
+        return new $this->modelClass();
     }
 
     public function where($key, $value)

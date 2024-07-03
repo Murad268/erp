@@ -48,7 +48,7 @@ class SupplierController extends Controller
     {
         try {
             $data = $request->all();
-            $this->crudService->create(new Supplier(), $data);
+            $this->crudService->create($this->supplierRepository->getModel(), $data);
             return redirect()->route('supplier.index')->with('status', 'Tədarükçü uğurla yaradıldı.');
         } catch (\Exception $e) {
             return redirect()->route('supplier.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);

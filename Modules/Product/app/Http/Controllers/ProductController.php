@@ -50,7 +50,7 @@ class ProductController extends Controller
     {
         try {
             $data = $request->all();
-            $this->crudService->create(new Product(), $data);
+            $this->crudService->create($this->productRepository->getModel(), $data);
             return redirect()->route('product.index')->with('status', 'Product successfully created.');
         } catch (\Exception $e) {
             return redirect()->route('product.index')->with(['error' => 'An error occurred: ' . $e->getMessage()]);

@@ -1,36 +1,35 @@
 <?php
 
-namespace Modules\Category\Http\Controllers;
+namespace Modules\Order\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Modules\Order\Http\Requests\OrderRequest;
 use App\Services\CrudService;
 use App\Services\RemoveService;
 use Illuminate\Http\Request;
-use Modules\Category\Http\Requests\CategoryRequest;
 use Modules\Category\Models\Category;
-use Modules\Category\Repositories\CategoryRepository;
+use Modules\Order\Models\Order;
+use Modules\Order\Repositories\OrderRepository;
 
-class CategoryController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function __construct(public CrudService $crudService, public CategoryRepository $categoryRepository, public RemoveService $removeService)
+    public function __construct(public CrudService $crudService, public OrderRepository $orderRepository, public RemoveService $removeService)
     {
-
     }
     public function index()
     {
         $q = request()->q;
         $perPage = 40;
         if ($q) {
-            $items = $this->categoryRepository->search($q,  $perPage);
+            $items = $this->orderRepository->search($q,  $perPage);
         } else {
 
-            $items = $this->categoryRepository->paginate($perPage);
+            $items = $this->orderRepository->paginate($perPage);
         }
-
-        return view('category::index', compact('items', 'q'));
+        return view('order::index', compact('items', 'q'));
     }
 
     /**
@@ -38,20 +37,20 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category::create');
+        return view('order::create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request)
+    public function store(OrderRequest $request)
     {
         try {
             $data = $request->all();
-            $this->crudService->create($this->categoryRepository->getModel(), $data);
-            return redirect()->route('category.index')->with('status', 'Kateqoriya uğurla yaradıldı.');
+            $this->crudService->create($this->orderRepository->getModel(), $data);
+            return redirect()->route('order.index')->with('status', 'Kateqoriya uğurla yaradıldı.');
         } catch (\Exception $e) {
-            return redirect()->route('category.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
+            return redirect()->route('order.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
         }
     }
 
@@ -61,7 +60,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return view('category::show');
+        return view('order::show');
     }
 
     /**
@@ -69,20 +68,20 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('category::edit', compact('category'));
+        return view('order::edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request, Category $category)
+    public function update(OrderRepository $request, Order $order)
     {
         try {
             $data = $request->all();
-            $this->crudService->update($category, $data);
-            return redirect()->route('category.index')->with('status', 'Kateqoriya uğurla yeniləndi.');
+            $this->crudService->update($order, $data);
+            return redirect()->route('order.index')->with('status', 'Kateqoriya uğurla yeniləndi.');
         } catch (\Exception $e) {
-            return redirect()->route('category.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
+            return redirect()->route('order.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
         }
     }
 
@@ -99,7 +98,7 @@ class CategoryController extends Controller
     {
 
         try {
-            $models = $this->categoryRepository->findWhereInGet($request->ids);
+            $models = $this->orderRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models);
             return response()->json(['success' => true, 'success' =>  'Kateqoriya uğurla silindi.']);
         } catch (\Exception $e) {

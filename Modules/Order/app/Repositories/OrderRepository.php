@@ -1,13 +1,12 @@
 <?php
 
-namespace Modules\Category\Repositories;
+namespace Modules\Order\Repositories;
 
+use Modules\Order\Models\Order;
 
-use Modules\Category\Models\Category;
-
-class CategoryRepository
+class OrderRepository
 {
-    protected $modelClass = Category::class;
+    protected $modelClass = Order::class;
 
 
 
