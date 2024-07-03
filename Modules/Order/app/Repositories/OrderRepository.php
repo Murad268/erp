@@ -3,6 +3,7 @@
 namespace Modules\Order\Repositories;
 
 use Modules\Order\Models\Order;
+use Modules\Order\Models\ProductOrder;
 
 class OrderRepository
 {
@@ -34,7 +35,10 @@ class OrderRepository
     {
         return $this->modelClass::whereIn('id', $data)->get();
     }
-
+    public function findWhereInGetInOrderProducts(array $data)
+    {
+        return ProductOrder::whereIn('id', $data)->get();
+    }
     public function getModel()
     {
         return new $this->modelClass();

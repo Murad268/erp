@@ -18,3 +18,4 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::apiResource('product', ProductController::class)->names('product');
 });
 Route::post('product/delete_selected_items', [ProductController::class, 'delete_selected_items'])->name('product.delete_selected_items');
+

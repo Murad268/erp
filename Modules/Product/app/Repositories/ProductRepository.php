@@ -22,6 +22,7 @@ class ProductRepository
     {
         return $this->modelClass::where('title', 'like', '%' . $q . '%')
             ->orWhere('description', 'like', '%' . $q . '%')
+            ->orWhere('id', 'like', '%' . $q . '%')
             ->paginate($perPage);
     }
 
@@ -45,9 +46,14 @@ class ProductRepository
         return $this->modelClass::where($key, $value);
     }
 
-    public function filter($filters, $perPage)
+    public function filter($filters, $perPage, $order = null)
     {
-        $query = $this->modelClass::query();
+        if($order != null) {
+            $query = $order->products()->newQuery();
+        } else {
+            $query = $this->modelClass::query();
+        }
+
 
         if (isset($filters['q'])) {
             $query->where(function ($q) use ($filters) {

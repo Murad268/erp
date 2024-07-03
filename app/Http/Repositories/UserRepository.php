@@ -26,7 +26,10 @@ class UserRepository
     {
         return $user = User::where('activate_token', $token)->where('id', $user_id)->first();
     }
-
+    public function all()
+    {
+        return $this->user->all();
+    }
     public function getByEmail($email)
     {
         return $this->user->where('email', $email)->first();

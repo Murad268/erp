@@ -14,15 +14,7 @@
                         <form method="post" action="{{ route('order.store') }}">
                             @csrf
                             <div class="grid grid-cols-1 gap-x-5 sm:grid-cols-2">
-                                <div class="mb-3">
-                                    <label for="products" class="inline-block mb-2 text-base font-medium">Sifariş ediləcək məhsullar<span class="text-red-500">*</span></label>
-                                    <select id="products" name="products[]" multiple class="products form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 select2">
-                                        @foreach($products as $product)
-                                            <option value="{{$product->id}}">{{$product->title}} / {{$product->price}} AZN</option>
-                                        @endforeach
-                                    </select>
-                                    @error('products')
-                                </div>
+
                                 <div class="mb-3">
                                     <label for="order_status" class="inline-block mb-2 text-base font-medium">Sifariş statusu<span class="text-red-500">*</span></label>
                                     <select id="order_status" name="order_status" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 select2">
