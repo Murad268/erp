@@ -15,10 +15,10 @@ use Modules\Invoice\Http\Controllers\InvoiceController;
 */
 
 Route::group([], function () {
-    Route::get('invoice', [InvoiceController::class, 'index'])->middleware('checkpermission:2,1')->name('invoice.index');
-    Route::get('invoice/create', [InvoiceController::class, 'create'])->middleware('checkpermission:2,5')->name('invoice.create');
-    Route::post('invoice', [InvoiceController::class, 'store'])->middleware('checkpermission:2,5')->name('invoice.store');
-    Route::get('invoice/{invoice}/edit', [InvoiceController::class, 'edit'])->middleware('checkpermission:2,6')->name('invoice.edit');
-    Route::match(['put', 'patch'], 'invoice/{invoice}', [InvoiceController::class, 'update'])->middleware('checkpermission:2,6')->name('invoice.update');
-    Route::delete('invoice/{invoice}', [InvoiceController::class, 'destroy'])->middleware('checkpermission:2,7')->name('invoice.destroy');
+    Route::get('invoice', [InvoiceController::class, 'index'])->middleware('checkpermission:11,1')->name('invoice.index');
+    Route::get('invoice/create', [InvoiceController::class, 'create'])->middleware('checkpermission:11,5')->name('invoice.create');
+    Route::post('invoice', [InvoiceController::class, 'store'])->middleware('checkpermission:11,5')->name('invoice.store');
+    Route::get('invoice/{invoice}/edit', [InvoiceController::class, 'edit'])->middleware('checkpermission:11,6')->name('invoice.edit');
+    Route::match(['put', 'patch'], 'invoice/{invoice}', [InvoiceController::class, 'update'])->middleware('checkpermission:11,6')->name('invoice.update');
+    Route::delete('invoice/{invoice}', [InvoiceController::class, 'destroy'])->middleware('checkpermission:11,7')->name('invoice.destroy');
 });

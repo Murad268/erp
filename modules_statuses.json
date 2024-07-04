@@ -14,5 +14,6 @@
     "Expense": true,
     "FinancialReport": true,
     "Invoices": true,
-    "Invoice": true
+    "Invoice": true,
+    "Payment": true
 }
