@@ -22,6 +22,8 @@ class MenuLinksSeeder extends Seeder
             ['id' => 7, 'title' => 'Adminlər', 'slug' => 'admin', 'code' => 'user'],
             ['id' => 8, 'title' => 'Gəlirlər', 'slug' => 'income', 'code' => 'finance'],
             ['id' => 9, 'title' => 'Xərclər', 'slug' => 'expence', 'code' => 'finance'],
+            ['id' => 10, 'title' => 'Maliyyə Hesabatı', 'slug' => 'financialreport', 'code' => 'finance'],
+            ['id' => 11, 'title' => 'Faktura', 'slug' => 'invoice', 'code' => 'finance']
         ];
 
         foreach ($menuLinks as $link) {

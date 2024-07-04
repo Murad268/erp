@@ -1,0 +1,11 @@
+{
+    "name": "FinancialReport",
+    "alias": "financialreport",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\FinancialReport\\Providers\\FinancialReportServiceProvider"
+    ],
+    "files": []
+}
