@@ -38,7 +38,34 @@ class UserRepository
     {
         return $this->user->where('reset_token', $token)->first();
     }
+    public function paginate($perPage)
+    {
+        return $this->user::paginate($perPage);
+    }
+    public function search($q, $perPage)
+    {
+        return $this->user::where('name', 'like', '%' . $q . '%')->orWhere('email', 'like', '%' . $q . '%')->paginate($perPage);
+    }
 
+    public function find($id)
+    {
+        return $this->user::findOrFail($id);
+    }
+
+    public function findWhereInGet(array $data)
+    {
+        return $this->user::whereIn('id', $data)->get();
+    }
+
+    public function getModel()
+    {
+        return new $this->user();
+    }
+
+    public function where($key, $value)
+    {
+        return $this->user::where($key, $value);
+    }
 }
 
 

@@ -6,5 +6,6 @@
     "Order": true,
     "MenuLinks": true,
     "UserRoles": true,
-    "UserRole": true
+    "UserRole": true,
+    "Admin": true
 }
