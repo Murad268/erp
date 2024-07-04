@@ -1,0 +1,11 @@
+{
+    "name": "MenuLinks",
+    "alias": "menulinks",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MenuLinks\\Providers\\MenuLinksServiceProvider"
+    ],
+    "files": []
+}

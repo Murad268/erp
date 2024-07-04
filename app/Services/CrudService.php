@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 class CrudService
 {
     public  function create($model, array $data, $thirdPartRelationName = null, $thirdPartRelation = null) {
-
         $newData = $model->create($data);
         if($thirdPartRelation) {
             $newData->$thirdPartRelationName()->attach($thirdPartRelation);

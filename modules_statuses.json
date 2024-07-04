@@ -3,5 +3,6 @@
     "Category": true,
     "Supplier": true,
     "Product": true,
-    "Order": true
+    "Order": true,
+    "MenuLinks": true
 }

@@ -5,13 +5,14 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Modules\MenuLinks\Repositories\MenuLinkRepository;
 
 class HeaderSidebar extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(public MenuLinkRepository $menuLinkRepository)
     {
         //
     }
@@ -21,6 +22,7 @@ class HeaderSidebar extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.header-sidebar');
+        $links = $this->menuLinkRepository->all();
+        return view('components.header-sidebar', compact('links'));
     }
 }

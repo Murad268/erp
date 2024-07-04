@@ -11,7 +11,7 @@
         <div class="grid grid-cols-1 gap-x-5 xl:grid-cols-10">
             <div class="card col-span-2">
                 <div class="card-body">
-                    <form method="post" action="{{route('supplier.store')}}">
+                    <form method="post" action="{{route('menulinks.store')}}">
                         @csrf
                         <div class="grid grid-cols-1 gap-x-5 sm:grid-cols-2">
                             <div class="mb-3">
