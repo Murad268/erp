@@ -13,4 +13,11 @@ class RemoveService
             }
         }
     }
+
+
+    public function deleteWhereInRelation($models, $relation, $relation_name, $delete_id) {
+        foreach ($models as $model) {
+            $relation::where($relation_name, $model->$delete_id)->delete();
+        }
+    }
 }

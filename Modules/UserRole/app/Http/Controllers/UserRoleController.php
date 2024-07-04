@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Modules\Category\Http\Requests\CategoryRequest;
 use Modules\Category\Models\Category;
 use Modules\UserRole\Http\Requests\UserRoleRequest;
+use Modules\UserRole\Models\RolePermission;
 use Modules\UserRole\Models\UserRole;
 use Modules\UserRole\Repositories\PermissionRepository;
 use Modules\UserRole\Repositories\UserRoleRepository;
@@ -85,7 +86,7 @@ class UserRoleController extends Controller
         try {
             $data = $request->except('permission_id');
             $userRole = $this->userRoleRepository->find($id);
-            $this->crudService->update($userRole, $data, 'permissions', $request->permission_id);
+            $this->crudService->update($userRole, $data);
             return redirect()->route('userrole.index')->with('status', 'Rol uğurla yeniləndi.');
         } catch (\Exception $e) {
             return redirect()->route('userrole.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
@@ -107,6 +108,7 @@ class UserRoleController extends Controller
         try {
             $models = $this->userRoleRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models);
+            $this->removeService->deleteWhereInRelation($models, new RolePermission(), 'role_id', 'id');
             return response()->json(['success' => true, 'success' =>  'Rol uğurla silindi.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);

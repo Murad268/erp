@@ -5,31 +5,28 @@
     <div class="container-fluid group-data-[content=boxed]:max-w-boxed mx-auto">
         <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
             <div class="grow">
-                <h5 class="text-16">Rol əlavə edin</h5>
+                <h5 class="text-16">İcazə əlavə edin</h5>
             </div>
         </div>
         <div class="grid grid-cols-1 gap-x-5 xl:grid-cols-10">
             <div class="card col-span-2">
                 <div class="card-body">
-                    <form method="post" action="{{ route('userrole.store') }}">
+                    <form method="post" action="{{ route('permission.update', ['role_id' => $id, 'page_id' => $page_id]) }}">
                         @csrf
-                        <div class="grid grid-cols-1 gap-x-5 sm:grid-cols-2">
-                            <div class="mb-3">
-                                <label for="inputText1" class="inline-block mb-2 text-base font-medium">Rol adı<span class="text-red-500">*</span></label>
-                                <input type="text" id="inputText1" name="title" value="{{ old('title') }}" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200">
-                            </div>
-                        </div>
-                        @error('title')
-                        <!-- <div class="flex-1 min-w-[150px] mb-3">
+                        <div class="flex-1 min-w-[150px] mb-3">
                             <label for="permission" class="inline-block mb-2 text-base font-medium">İcazə<span class="text-red-500">*</span></label>
-                            <select multiple id="permission" name="permission_id[]" class="w-full py-3 pl-5 pr-8 form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200 text-15">
+                            <select multiple id="permission" name="permission[]" class="w-full py-3 pl-5 pr-8 form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200 text-15">
                                 @foreach($permissions as $permission)
-                                <option value="{{ $permission->id }}">{{ $permission->title }}</option>
+                                @php
+                                $selectedPermissions = $page->permissions($id)->pluck('user_permissions.id')->toArray();
+                                @endphp
+                                <option {{ in_array($permission->id, $selectedPermissions) ? 'selected' : '' }} value="{{ $permission->id }}">{{ $permission->title }}</option>
                                 @endforeach
                             </select>
-                        </div> -->
+                        </div>
+
                         <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
-                            Əlavə et
+                            Yenilə
                         </button>
                     </form>
                 </div>

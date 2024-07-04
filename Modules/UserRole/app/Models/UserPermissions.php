@@ -4,6 +4,7 @@ namespace Modules\UserRole\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\MenuLinks\Models\Menu;
 use Modules\UserRole\Database\Factories\UserPermissionsFactory;
 
 class UserPermissions extends Model
@@ -19,4 +20,6 @@ class UserPermissions extends Model
     {
         //return UserPermissionsFactory::new();
     }
+
+   
 }
