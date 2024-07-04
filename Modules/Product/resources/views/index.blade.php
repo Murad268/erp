@@ -92,9 +92,10 @@
                                         <td class="p-3 group-[.bordered]:border group-[.bordered]:border-slate-200 group-[.bordered]:dark:border-zink-500 sorting_1">
                                             {{ $item->price }} AZN
                                         </td>
-                                        <td class="p-3 group-[.bordered]:border group-[.bordered]:border-slate-200 group-[.bordered]:dark:border-zink-500 sorting_1">
+                                        <td class="p-3 group-[.bordered]:border group-[.bordered]:border-slate-200 group-[.bordered]:dark:border-zink-500 sorting_1 {{ $item->stock_count < 20 ? 'text-red-500' : '' }}">
                                             {{ $item->stock_count }} ədəd
                                         </td>
+
                                         <td>
                                             <div class="d-flex">
                                                 <a href="{{route('product.edit', $item->id)}}" class="btn btn-phoenix-success me-1 mb-1" type="button">

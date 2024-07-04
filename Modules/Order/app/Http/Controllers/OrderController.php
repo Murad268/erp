@@ -146,7 +146,7 @@ class OrderController extends Controller
             $productStock = $product->stock_count;
 
             if ($productStock < $request->count) {
-                return redirect()->route('order.orderList', $order_id)->with('error', 'Məhsulun kifayət qədər stoku yoxdur.');
+                return redirect()->back()->with('error', 'Məhsulun kifayət qədər stoku yoxdur.');
             }
 
             $productOrder = ProductOrder::where('order_id', (int)$order_id)

@@ -40,7 +40,7 @@
                             <form class="send_email" action="{{route('send_email_password_reset')}}">
                                 @csrf
                                 <input name="email" value="{{auth()->user()->email}}" type="hidden">
-                                <input id="password-reset-button" type="submit" value="Şifrə yenilənməsi üçün sorğu göndər">
+                                <input style="cursor: pointer" id="password-reset-button" type="submit" value="Şifrə yenilənməsi üçün sorğu göndər">
                             </form>
                         </div>
                     </div>
