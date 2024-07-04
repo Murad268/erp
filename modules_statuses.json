@@ -4,5 +4,7 @@
     "Supplier": true,
     "Product": true,
     "Order": true,
-    "MenuLinks": true
+    "MenuLinks": true,
+    "UserRoles": true,
+    "UserRole": true
 }
