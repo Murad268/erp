@@ -15,5 +15,9 @@ use Modules\Category\Http\Controllers\CategoryController;
 */
 
 Route::group([], function () {
-    Route::resource('category', CategoryController::class)->names('category');
+    Route::get('category', [CategoryController::class, 'index'])->middleware('checkpermission:2,1')->name('category.index');
+    Route::get('category/create', [CategoryController::class, 'create'])->middleware('checkpermission:2,5')->name('category.create');
+    Route::post('category', [CategoryController::class, 'store'])->middleware('checkpermission:2,5')->name('category.store');
+    Route::get('category/{category}/edit', [CategoryController::class, 'edit'])->middleware('checkpermission:2,6')->name('category.edit');
+    Route::match(['put', 'patch'], 'category/{category}', [CategoryController::class, 'update'])->middleware('checkpermission:2,6')->name('category.update');
 });

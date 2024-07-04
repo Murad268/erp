@@ -95,9 +95,9 @@ class ProductController extends Controller
         try {
             $models = $this->productRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models);
-            return response()->json(['success' => true, 'message' => 'Product successfully deleted.']);
+            return response()->json(['success' => true, 'success' => 'Məhsul uğurla silindi.']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => 'An error occurred: ' . $e->getMessage()]);
+            return response()->json(['success' => false, 'error' => 'Xəta baş verdi: ' . $e->getMessage()]);
         }
     }
 }

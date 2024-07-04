@@ -130,14 +130,14 @@ class OrderController extends Controller
 
         $data['order'] = $order;
         $data['items'] = $items;
-        return view('order::productsList', $data);
+        return view('order::product.productsList', $data);
     }
 
     public function addProduct($order_id)
     {
         $order = $this->orderRepository->find($order_id);
         $products = $this->productRepository->all();
-        return view('order::add-product', compact('order', 'products'));
+        return view('order::product.add-product', compact('order', 'products'));
     }
     public function storeProduct(SelectProductRequest $request, $order_id)
     {

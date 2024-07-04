@@ -17,3 +17,4 @@ use Modules\Admin\Http\Controllers\AdminController;
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::apiResource('admin', AdminController::class)->names('admin');
 });
+Route::post('admin/delete_selected_items', [AdminController::class, 'delete_selected_items'])->name('admin.delete_selected_items');

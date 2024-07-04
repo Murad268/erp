@@ -50,7 +50,7 @@ class AdminController extends Controller
         try {
             $data = $request->all();
             $this->crudService->create($this->userRepository->getModel(), $data);
-            return redirect()->route('admin.index')->with('status', 'Rolun uğurla yaradıldı.');
+            return redirect()->route('admin.index')->with('status', 'Admin uğurla yaradıldı.');
         } catch (\Exception $e) {
             return redirect()->route('admin.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
         }
@@ -84,7 +84,7 @@ class AdminController extends Controller
         try {
             $data = $request->all();
             $this->crudService->update($user, $data);
-            return redirect()->route('admin.index')->with('status', 'Rol uğurla yeniləndi.');
+            return redirect()->route('admin.index')->with('status', 'Admin uğurla yeniləndi.');
         } catch (\Exception $e) {
             return redirect()->route('admin.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
         }
@@ -101,11 +101,10 @@ class AdminController extends Controller
 
     public function delete_selected_items(Request $request)
     {
-
         try {
             $models = $this->userRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models);
-            return response()->json(['success' => true, 'success' =>  'Kateqoriya uğurla silindi.']);
+            return response()->json(['success' => true, 'success' =>  'Admin uğurla silindi.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
         }

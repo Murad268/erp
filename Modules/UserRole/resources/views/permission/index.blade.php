@@ -48,9 +48,15 @@
                                         <td class="p-3 group-[.bordered]:border group-[.bordered]:border-slate-200 group-[.bordered]:dark:border-zink-500 sorting_1">
                                             @php
                                             $titles = $item->permissions($id)->pluck('title')->toArray();
+                                            if(count($titles)<1) {
+                                                $text = "Heç bir icazə təyin edilməyib";
+                                            } else {
+                                                $text = "";
+                                            }
+
                                             @endphp
 
-                                            <span>{{ implode(', ', $titles) }}</span>
+                                            <span>{{ implode(', ', $titles) }}{{$text}}</span>
 
                                         </td>
                                         <td>

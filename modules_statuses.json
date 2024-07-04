@@ -7,5 +7,9 @@
     "MenuLinks": true,
     "UserRoles": true,
     "UserRole": true,
-    "Admin": true
+    "Admin": true,
+    "Income": true,
+    "Expences": true,
+    "Expence": true,
+    "Expense": true
 }

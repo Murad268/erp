@@ -31,7 +31,7 @@ class UserPermissionController extends Controller
     {
         $role = $this->userRoleRepository->find($id);
         $items = $this->menuLinkRepository->all();
-        return view('userrole::permissionList', compact('items', 'id', 'role'));
+        return view('userrole::permission.index', compact('items', 'id', 'role'));
     }
 
     /**
@@ -42,7 +42,7 @@ class UserPermissionController extends Controller
         $links = $this->menuLinkRepository->all();
         $permissions = $this->permissionRepository->all();
         $role = $this->userRoleRepository->find($role_id);
-        return view('userrole::addpermission', compact('links', 'permissions', 'role_id', 'role'));
+        return view('userrole::permission.create', compact('links', 'permissions', 'role_id', 'role'));
     }
 
     /**
@@ -83,7 +83,7 @@ class UserPermissionController extends Controller
     {
         $permissions = $this->permissionRepository->all();
         $page = $this->menuLinkRepository->find($page_id);
-        return view('userrole::permissions_edit', compact('permissions', 'id', 'page', 'page_id'));
+        return view('userrole::permission.edit', compact('permissions', 'id', 'page', 'page_id'));
     }
 
     /**

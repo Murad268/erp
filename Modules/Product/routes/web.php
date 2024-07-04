@@ -15,5 +15,9 @@ use Modules\Product\Http\Controllers\ProductController;
 */
 
 Route::group([], function () {
-    Route::resource('product', ProductController::class)->names('product');
+    Route::get('product', [ProductController::class, 'index'])->middleware('checkpermission:3,1')->name('product.index');
+    Route::get('product/create', [ProductController::class, 'create'])->middleware('checkpermission:3,5')->name('product.create');
+    Route::post('product', [ProductController::class, 'store'])->middleware('checkpermission:3,5')->name('product.store');
+    Route::get('product/{product}/edit', [ProductController::class, 'edit'])->middleware('checkpermission:3,6')->name('product.edit');
+    Route::match(['put', 'patch'], 'product/{product}', [ProductController::class, 'update'])->middleware('checkpermission:3,6')->name('product.update');
 });

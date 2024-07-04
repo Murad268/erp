@@ -30,7 +30,8 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "app/Helpers/menuhelper.php"
+            "app/Helpers/menuhelper.php",
+            "app/Helpers/permissionhelper.php"
         ]
     },
     "scripts": {

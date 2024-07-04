@@ -46,6 +46,7 @@ class SupplierController extends Controller
      */
     public function store(SupplierRequest $request)
     {
+
         try {
             $data = $request->all();
             $this->crudService->create($this->supplierRepository->getModel(), $data);
