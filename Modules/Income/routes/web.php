@@ -13,7 +13,7 @@ use Modules\Income\Http\Controllers\IncomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('income', [IncomeController::class, 'index'])->middleware('checkpermission:8,1')->name('income.index');
     Route::get('income/create', [IncomeController::class, 'create'])->middleware('checkpermission:8,5')->name('income.create');
     Route::post('income', [IncomeController::class, 'store'])->middleware('checkpermission:8,5')->name('income.store');

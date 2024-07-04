@@ -14,7 +14,7 @@ use Modules\User\Http\Controllers\UserController;
 |
 */
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::resource('user', UserController::class)->names('user');
     Route::get('/send_email_password_reset', [UserController::class, 'send_email_password_reset'])->name('send_email_password_reset');
     Route::get('/new-email', [UserController::class, 'new_email'])->name('new-email');

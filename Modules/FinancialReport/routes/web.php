@@ -14,6 +14,6 @@ use Modules\FinancialReport\Http\Controllers\FinancialReportController;
 |
 */
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::resource('financialreport', FinancialReportController::class)->names('financialreport');
 });

@@ -4,70 +4,51 @@ namespace Modules\Admin\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repositories\UserRepository;
-use App\Models\User;
 use App\Services\CrudService;
 use App\Services\RemoveService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Modules\UserRole\Repositories\UserRoleRepository;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function __construct(public UserRoleRepository $userRoleRepository, public CrudService $crudService, public UserRepository $userRepository, public RemoveService $removeService)
-    {
-    }
+    public function __construct(
+        protected UserRoleRepository $userRoleRepository,
+        protected CrudService $crudService,
+        protected UserRepository $userRepository,
+        protected RemoveService $removeService
+    ) {}
+
     public function index()
     {
         $q = request()->q;
         $perPage = 40;
-        if ($q) {
-            $items = $this->userRepository->search($q,  $perPage);
-        } else {
-
-            $items = $this->userRepository->paginate($perPage);
-        }
+        $items = $q
+            ? $this->userRepository->search($q, $perPage)
+            : $this->userRepository->paginate($perPage);
 
         return view('admin::index', compact('items', 'q'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        try {
+        return $this->executeSafely(function() use ($request) {
             $data = $request->all();
             $this->crudService->create($this->userRepository->getModel(), $data);
             return redirect()->route('admin.index')->with('status', 'Admin uğurla yaradıldı.');
-        } catch (\Exception $e) {
-            return redirect()->route('admin.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+        }, 'admin.index');
     }
 
-
-    /**
-     * Show the specified resource.
-     */
     public function show($id)
     {
         return view('admin::show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $roles = $this->userRoleRepository->all();
@@ -75,41 +56,27 @@ class AdminController extends Controller
         return view('admin::edit', compact('user', 'roles'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
-        $user = $this->userRepository->find($id);
-        try {
+        return $this->executeSafely(function() use ($request, $id) {
+            $user = $this->userRepository->find($id);
             $data = $request->all();
             $this->crudService->update($user, $data);
             return redirect()->route('admin.index')->with('status', 'Admin uğurla yeniləndi.');
-        } catch (\Exception $e) {
-            return redirect()->route('admin.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+        }, 'admin.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        //
+        // Implement the destroy logic if needed
     }
-
 
     public function delete_selected_items(Request $request)
     {
-        try {
+        return $this->executeSafely(function() use ($request) {
             $models = $this->userRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models);
-            return response()->json(['success' => true, 'success' =>  'Admin uğurla silindi.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+            return response()->json(['success' => true, 'message' => 'Admin uğurla silindi.']);
+        });
     }
 }
-/**
- * Display a listing of the resource.
- */

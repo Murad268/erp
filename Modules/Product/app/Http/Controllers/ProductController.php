@@ -15,13 +15,12 @@ use Modules\Supplier\Repositories\SupplierRepository;
 class ProductController extends Controller
 {
     public function __construct(
-        public CrudService $crudService,
-        public ProductRepository $productRepository,
-        public RemoveService $removeService,
-        public CategoryRepository $categoryRepository,
-        public SupplierRepository $supplierRepository
-    ) {
-    }
+        protected CrudService $crudService,
+        protected ProductRepository $productRepository,
+        protected RemoveService $removeService,
+        protected CategoryRepository $categoryRepository,
+        protected SupplierRepository $supplierRepository
+    ) {}
 
     private function loadCategoriesAndSuppliers()
     {
@@ -54,13 +53,11 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        try {
+        return $this->executeSafely(function() use ($request) {
             $data = $request->all();
             $this->crudService->create($this->productRepository->getModel(), $data);
             return redirect()->route('product.index')->with('status', 'Product successfully created.');
-        } catch (\Exception $e) {
-            return redirect()->route('product.index')->with(['error' => 'An error occurred: ' . $e->getMessage()]);
-        }
+        }, 'product.index');
     }
 
     public function show($id)
@@ -76,28 +73,20 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
-        try {
+        return $this->executeSafely(function() use ($request, $product) {
             $data = $request->all();
             $this->crudService->update($product, $data);
             return redirect()->route('product.index')->with('status', 'Product successfully updated.');
-        } catch (\Exception $e) {
-            return redirect()->route('product.index')->with(['error' => 'An error occurred: ' . $e->getMessage()]);
-        }
+        }, 'product.index');
     }
 
-    public function destroy($id)
-    {
-        // Implement destroy functionality if needed
-    }
 
     public function delete_selected_items(Request $request)
     {
-        try {
+        return $this->executeSafely(function() use ($request) {
             $models = $this->productRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models);
-            return response()->json(['success' => true, 'success' => 'Məhsul uğurla silindi.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Xəta baş verdi: ' . $e->getMessage()]);
-        }
+            return response()->json(['success' => true, 'message' => 'Product successfully deleted.']);
+        });
     }
 }

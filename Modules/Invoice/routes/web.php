@@ -14,7 +14,7 @@ use Modules\Invoice\Http\Controllers\InvoiceController;
 |
 */
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('invoice', [InvoiceController::class, 'index'])->middleware('checkpermission:11,1')->name('invoice.index');
     Route::get('invoice/create', [InvoiceController::class, 'create'])->middleware('checkpermission:11,5')->name('invoice.create');
     Route::post('invoice', [InvoiceController::class, 'store'])->middleware('checkpermission:11,5')->name('invoice.store');

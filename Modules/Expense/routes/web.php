@@ -14,7 +14,7 @@ use Modules\Expense\Http\Controllers\ExpenseController;
 |
 */
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('expense', [ExpenseController::class, 'index'])->middleware('checkpermission:3,1')->name('expense.index');
     Route::get('expense/create', [ExpenseController::class, 'create'])->middleware('checkpermission:3,5')->name('expense.create');
     Route::post('expense', [ExpenseController::class, 'store'])->middleware('checkpermission:3,5')->name('expense.store');

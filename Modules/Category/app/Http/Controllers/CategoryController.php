@@ -12,98 +12,67 @@ use Modules\Category\Repositories\CategoryRepository;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function __construct(public CrudService $crudService, public CategoryRepository $categoryRepository, public RemoveService $removeService)
-    {
+    public function __construct(
+        protected CrudService $crudService,
+        protected CategoryRepository $categoryRepository,
+        protected RemoveService $removeService
+    ) {}
 
-    }
     public function index()
     {
         $q = request()->q;
         $perPage = 40;
-        if ($q) {
-            $items = $this->categoryRepository->search($q,  $perPage);
-        } else {
-
-            $items = $this->categoryRepository->paginate($perPage);
-        }
+        $items = $q
+            ? $this->categoryRepository->search($q, $perPage)
+            : $this->categoryRepository->paginate($perPage);
 
         return view('category::index', compact('items', 'q'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('category::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CategoryRequest $request)
     {
-        try {
+        return $this->executeSafely(function() use ($request) {
             $data = $request->all();
             $this->crudService->create($this->categoryRepository->getModel(), $data);
             return redirect()->route('category.index')->with('status', 'Kateqoriya uğurla yaradıldı.');
-        } catch (\Exception $e) {
-            return redirect()->route('category.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+        }, 'category.index');
     }
 
-
-    /**
-     * Show the specified resource.
-     */
     public function show($id)
     {
         return view('category::show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Category $category)
     {
         return view('category::edit', compact('category'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(CategoryRequest $request, Category $category)
     {
-        try {
+        return $this->executeSafely(function() use ($request, $category) {
             $data = $request->all();
             $this->crudService->update($category, $data);
             return redirect()->route('category.index')->with('status', 'Kateqoriya uğurla yeniləndi.');
-        } catch (\Exception $e) {
-            return redirect()->route('category.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+        }, 'category.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        //
+        // Destroy method implementation (if needed)
     }
-
 
     public function delete_selected_items(Request $request)
     {
-
-        try {
+        return $this->executeSafely(function() use ($request) {
             $models = $this->categoryRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models);
-            return response()->json(['success' => true, 'success' =>  'Kateqoriya uğurla silindi.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+            return response()->json(['success' => true, 'message' => 'Kateqoriya uğurla silindi.']);
+        });
     }
 }

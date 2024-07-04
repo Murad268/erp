@@ -15,7 +15,7 @@ use Modules\Admin\Http\Controllers\AdminController;
 */
 
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('admin', [AdminController::class, 'index'])->middleware('checkpermission:7,1')->name('admin.index');
     Route::get('admin/create', [AdminController::class, 'create'])->middleware('checkpermission:7,5')->name('admin.create');
     Route::post('admin', [AdminController::class, 'store'])->middleware('checkpermission:7,5')->name('admin.store');

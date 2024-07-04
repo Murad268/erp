@@ -14,7 +14,7 @@ use Modules\Product\Http\Controllers\ProductController;
 |
 */
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('product', [ProductController::class, 'index'])->middleware('checkpermission:3,1')->name('product.index');
     Route::get('product/create', [ProductController::class, 'create'])->middleware('checkpermission:3,5')->name('product.create');
     Route::post('product', [ProductController::class, 'store'])->middleware('checkpermission:3,5')->name('product.store');

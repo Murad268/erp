@@ -1,7 +1,7 @@
 <head>
 
     <meta charset="utf-8">
-    <title>Analytics | Tailwick - Admin & Dashboard Template</title>
+    <title>N adlı şirkətin erp sistemi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta content="Minimal Admin & Dashboard Template" name="description">
     <meta content="Themesdesign" name="author">
@@ -27,6 +27,16 @@
             color: white;
             background-color: black;
             /* və s. */
+        }
+        .status-message {
+            color: green !important;
+            font-weight: bold !important;
+            font-size: 20px;
+        }
+        .invalid-feedback {
+            color: red !important;
+            font-weight: bold !important;
+            font-size: 20px;
         }
     </style>
 

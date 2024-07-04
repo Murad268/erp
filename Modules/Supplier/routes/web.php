@@ -14,10 +14,10 @@ use Modules\Supplier\Http\Controllers\SupplierController;
 |
 */
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('supplier', [SupplierController::class, 'index'])->middleware('checkpermission:1,1')->name('supplier.index');
     Route::get('supplier/create', [SupplierController::class, 'create'])->middleware('checkpermission:1,5')->name('supplier.create');
-    Route::post('supplier', [SupplierController::class, 'store'])->middleware('checkpermission:1,15')->name('supplier.store');
+    Route::post('supplier', [SupplierController::class, 'store'])->middleware('checkpermission:1,5')->name('supplier.store');
     Route::get('supplier/{supplier}/edit', [SupplierController::class, 'edit'])->middleware('checkpermission:1,6')->name('supplier.edit');
     Route::patch('supplier/{supplier}', [SupplierController::class, 'update'])->middleware('checkpermission:1,6')->name('supplier.update');
 });

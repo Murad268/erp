@@ -16,10 +16,10 @@ use Modules\Order\Http\Controllers\OrderController;
 
 
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('order', [OrderController::class, 'index'])->middleware('checkpermission:4,1')->name('order.index');
     Route::get('order/create', [OrderController::class, 'create'])->middleware('checkpermission:4,5')->name('order.create');
-    Route::get('order/{order}', [OrderController::class, 'show'])->middleware('checkpermission:4,5')->name('order.show');
+    Route::post('order/store', [OrderController::class, 'store'])->middleware('checkpermission:4,5')->name('order.store');
     Route::get('order/{order}/edit', [OrderController::class, 'edit'])->middleware('checkpermission:4,6')->name('order.edit');
     Route::match(['put', 'patch'], 'order/{order}', [OrderController::class, 'update'])->middleware('checkpermission:4,6')->name('order.update');
 });

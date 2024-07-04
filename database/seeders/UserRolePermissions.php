@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\UserRole\Models\RolePermission;
 
@@ -42,6 +41,26 @@ class UserRolePermissions extends Seeder
             ['id' => 88, 'role_id' => 14, 'permission_id' => 5, 'page_id' => 1],
             ['id' => 89, 'role_id' => 14, 'permission_id' => 6, 'page_id' => 1],
             ['id' => 90, 'role_id' => 14, 'permission_id' => 7, 'page_id' => 1],
+            ['id' => 91, 'role_id' => 14, 'permission_id' => 1, 'page_id' => 8],
+            ['id' => 92, 'role_id' => 14, 'permission_id' => 5, 'page_id' => 8],
+            ['id' => 93, 'role_id' => 14, 'permission_id' => 6, 'page_id' => 8],
+            ['id' => 94, 'role_id' => 14, 'permission_id' => 7, 'page_id' => 8],
+            ['id' => 95, 'role_id' => 14, 'permission_id' => 1, 'page_id' => 9],
+            ['id' => 96, 'role_id' => 14, 'permission_id' => 5, 'page_id' => 9],
+            ['id' => 97, 'role_id' => 14, 'permission_id' => 6, 'page_id' => 9],
+            ['id' => 98, 'role_id' => 14, 'permission_id' => 7, 'page_id' => 9],
+            ['id' => 99, 'role_id' => 14, 'permission_id' => 1, 'page_id' => 10],
+            ['id' => 100, 'role_id' => 14, 'permission_id' => 5, 'page_id' => 10],
+            ['id' => 101, 'role_id' => 14, 'permission_id' => 6, 'page_id' => 10],
+            ['id' => 102, 'role_id' => 14, 'permission_id' => 7, 'page_id' => 10],
+            ['id' => 103, 'role_id' => 14, 'permission_id' => 1, 'page_id' => 11],
+            ['id' => 104, 'role_id' => 14, 'permission_id' => 5, 'page_id' => 11],
+            ['id' => 105, 'role_id' => 14, 'permission_id' => 6, 'page_id' => 11],
+            ['id' => 106, 'role_id' => 14, 'permission_id' => 7, 'page_id' => 11],
+            ['id' => 107, 'role_id' => 14, 'permission_id' => 1, 'page_id' => 12],
+            ['id' => 108, 'role_id' => 14, 'permission_id' => 5, 'page_id' => 12],
+            ['id' => 109, 'role_id' => 14, 'permission_id' => 6, 'page_id' => 12],
+            ['id' => 110, 'role_id' => 14, 'permission_id' => 7, 'page_id' => 12],
         ];
 
         foreach ($rolePermissions as $permission) {

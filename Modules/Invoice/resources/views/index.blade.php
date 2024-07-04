@@ -138,7 +138,7 @@
                         })
                             .then(response => response.json())
                             .then(data => {
-                                Swal.fire(data.success, "", "success").then(() => {
+                                Swal.fire(data.message, "", "success").then(() => {
                                     location.reload();
                                 });
                             })

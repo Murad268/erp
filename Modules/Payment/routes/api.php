@@ -17,3 +17,4 @@ use Modules\Payment\Http\Controllers\PaymentController;
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::apiResource('payment', PaymentController::class)->names('payment');
 });
+Route::post('payment/delete_selected_items', [PaymentController::class, 'delete_selected_items'])->name('payment.delete_selected_items');

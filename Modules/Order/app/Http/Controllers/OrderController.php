@@ -11,23 +11,27 @@ use Modules\Order\Http\Requests\OrderRequest;
 use App\Services\CrudService;
 use App\Services\RemoveService;
 use Illuminate\Http\Request;
-use Modules\Category\Models\Category;
 use Modules\Order\Http\Requests\SelectProductRequest;
 use Modules\Order\Models\Order;
 use Modules\Order\Models\ProductOrder;
 use Modules\Order\Repositories\OrderRepository;
-use Modules\Product\Models\Product;
 use Modules\Product\Repositories\ProductRepository;
 use Modules\Supplier\Repositories\SupplierRepository;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function __construct(public UserRepository $userRepository, public MailService $mailService, public CrudService $crudService, public OrderRepository $orderRepository, public RemoveService $removeService, public CodeService $codeService, public ProductRepository $productRepository, public CategoryRepository $categoryRepository, public SupplierRepository $supplierRepository)
-    {
-    }
+    public function __construct(
+        protected UserRepository $userRepository,
+        protected MailService $mailService,
+        protected CrudService $crudService,
+        protected OrderRepository $orderRepository,
+        protected RemoveService $removeService,
+        protected CodeService $codeService,
+        protected ProductRepository $productRepository,
+        protected CategoryRepository $categoryRepository,
+        protected SupplierRepository $supplierRepository
+    ) {}
+
     private function loadCategoriesAndSuppliers()
     {
         return [
@@ -35,83 +39,57 @@ class OrderController extends Controller
             'suppliers' => $this->supplierRepository->all()
         ];
     }
+
     public function index()
     {
         $q = request()->q;
         $perPage = 40;
-        if ($q) {
-            $items = $this->orderRepository->search($q,  $perPage);
-        } else {
+        $items = $q
+            ? $this->orderRepository->search($q, $perPage)
+            : $this->orderRepository->paginate($perPage);
 
-            $items = $this->orderRepository->paginate($perPage);
-        }
         return view('order::index', compact('items', 'q'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $products = $this->productRepository->all();
-
         return view('order::create', compact('products'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(OrderRequest $request)
     {
-        try {
+        return $this->executeSafely(function() use ($request) {
             $data = $request->except('products');
             $data['order_code'] = $this->codeService->generateRandomCode();
             $this->crudService->create($this->orderRepository->getModel(), $data);
-            return redirect()->route('order.index')->with('status', 'Kateqoriya uğurla yaradıldı.');
-        } catch (\Exception $e) {
-            return redirect()->route('order.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+            return redirect()->route('order.index')->with('status', 'Sifariş uğurla yaradıldı.');
+        }, 'order.index');
     }
 
-
-    /**
-     * Show the specified resource.
-     */
     public function show($id)
     {
         return view('order::show');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Order $order)
     {
         $products = $this->productRepository->all();
-
         return view('order::edit', compact('order', 'products'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(OrderRequest $request, Order $order)
     {
-        try {
+        return $this->executeSafely(function() use ($request, $order) {
             $data = $request->all();
             $this->crudService->update($order, $data);
-            return redirect()->route('order.index')->with('status', 'Kateqoriya uğurla yeniləndi.');
-        } catch (\Exception $e) {
-            return redirect()->route('order.index')->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+            return redirect()->route('order.index')->with('status', 'Sifariş uğurla yeniləndi.');
+        }, 'order.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        //
+        // Destroy method implementation (if needed)
     }
 
     public function orderList(Request $request, $order_id)
@@ -139,9 +117,10 @@ class OrderController extends Controller
         $products = $this->productRepository->all();
         return view('order::product.add-product', compact('order', 'products'));
     }
+
     public function storeProduct(SelectProductRequest $request, $order_id)
     {
-        try {
+        return $this->executeSafely(function() use ($request, $order_id) {
             $product = $this->productRepository->find($request->product_id);
             $productStock = $product->stock_count;
 
@@ -170,41 +149,36 @@ class OrderController extends Controller
             if ($newStockCount < 10) {
                 $users = $this->userRepository->all();
                 foreach ($users as $user) {
-                    $this->mailService->sendMail('emails.stock', [ 'product_id' =>  $product->id, 'product_name' => $product->title, 'new_stock_count' => $newStockCount],$user->email, 'Warning: Məhsulun stoku 10-dan aşağıdır');
+                    $this->mailService->sendMail('emails.stock', [
+                        'product_id' =>  $product->id,
+                        'product_name' => $product->title,
+                        'new_stock_count' => $newStockCount
+                    ], $user->email, 'Warning: Məhsulun stoku 10-dan aşağıdır');
                 }
             }
 
             return redirect()->route('order.orderList', $order_id)->with('success', 'Məhsul uğurla sifarişə əlavə edildi.');
-        } catch (\Exception $e) {
-            return redirect()->route('order.orderList', $order_id)->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+        }, 'order.orderList', $order_id);
     }
-
-
 
     public function delete_selected_items(Request $request)
     {
-        try {
+        return $this->executeSafely(function() use ($request) {
             $models = $this->orderRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models, true, 'products');
-            return response()->json(['success' => true, 'success' =>  'Məhsul uğurla silindi.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+            return response()->json(['success' => true, 'message' => 'Məhsul uğurla silindi.']);
+        });
     }
 
     public function delete_selected_products(Request $request)
     {
-        try {
-
+        return $this->executeSafely(function() use ($request) {
             $order = $this->orderRepository->find($request->order);
 
             foreach ($request->ids as $id) {
                 $order->products()->detach($id);
             }
-            return response()->json(['success' => true, 'success' =>  'Məhsul uğurla silindi.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+            return response()->json(['success' => true, 'message' => 'Məhsul uğurla silindi.']);
+        });
     }
 }

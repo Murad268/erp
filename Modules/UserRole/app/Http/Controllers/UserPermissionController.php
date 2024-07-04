@@ -7,7 +7,6 @@ use App\Services\CrudService;
 use App\Services\RemoveService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Modules\MenuLinks\Repositories\MenuLinkRepository;
 use Modules\UserRole\Models\RolePermission;
 use Modules\UserRole\Repositories\PermissionRepository;
@@ -15,17 +14,13 @@ use Modules\UserRole\Repositories\UserRoleRepository;
 
 class UserPermissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function __construct(
-        public MenuLinkRepository $menuLinkRepository,
-        public CrudService $crudService,
-        public UserRoleRepository $userRoleRepository,
-        public PermissionRepository $permissionRepository,
-        public RemoveService $removeService
-    ) {
-    }
+        protected MenuLinkRepository $menuLinkRepository,
+        protected CrudService $crudService,
+        protected UserRoleRepository $userRoleRepository,
+        protected PermissionRepository $permissionRepository,
+        protected RemoveService $removeService
+    ) {}
 
     public function index($id)
     {
@@ -34,9 +29,6 @@ class UserPermissionController extends Controller
         return view('userrole::permission.index', compact('items', 'id', 'role'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create($role_id)
     {
         $links = $this->menuLinkRepository->all();
@@ -45,12 +37,9 @@ class UserPermissionController extends Controller
         return view('userrole::permission.create', compact('links', 'permissions', 'role_id', 'role'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request, $id): RedirectResponse
     {
-        try {
+        return $this->executeSafely(function() use ($request, $id) {
             $permissions = $request->permission($id);
 
             foreach ($permissions as $permission) {
@@ -63,22 +52,11 @@ class UserPermissionController extends Controller
             }
 
             return redirect()->route('permission.list', $id)->with('status', 'İcazə əlavə edildi.');
-        } catch (\Exception $e) {
-            return redirect()->route('permission.list', $id)->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+        }, 'permission.list');
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('userrole::show');
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit($id, $page_id)
     {
         $permissions = $this->permissionRepository->all();
@@ -86,22 +64,17 @@ class UserPermissionController extends Controller
         return view('userrole::permission.edit', compact('permissions', 'id', 'page', 'page_id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id, $page_id): RedirectResponse
     {
-        try {
+        return $this->executeSafely(function() use ($request, $id, $page_id) {
             $page = $this->menuLinkRepository->find($page_id);
 
             if (!$page) {
                 return redirect()->route('permission.list', $id)->with(['error' => 'Səhifə tapılmadı.']);
             }
 
-            // Remove all existing permissions for the role
             RolePermission::where('role_id', $id)->where('page_id', $page_id)->delete();
 
-            // Add new permissions
             $permissions = $request->permission;
 
             foreach ($permissions as $permission) {
@@ -114,14 +87,9 @@ class UserPermissionController extends Controller
             }
 
             return redirect()->route('permission.list', $id)->with('status', 'İcazələr yeniləndi.');
-        } catch (\Exception $e) {
-            return redirect()->route('permission.list', $id)->with(['error' => 'Bir xəta baş verdi: ' . $e->getMessage()]);
-        }
+        }, 'permission.list');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         // Implement the destroy logic if needed

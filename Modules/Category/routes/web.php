@@ -14,7 +14,7 @@ use Modules\Category\Http\Controllers\CategoryController;
 |
 */
 
-Route::group([], function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::get('category', [CategoryController::class, 'index'])->middleware('checkpermission:2,1')->name('category.index');
     Route::get('category/create', [CategoryController::class, 'create'])->middleware('checkpermission:2,5')->name('category.create');
     Route::post('category', [CategoryController::class, 'store'])->middleware('checkpermission:2,5')->name('category.store');

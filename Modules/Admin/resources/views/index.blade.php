@@ -67,12 +67,15 @@
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="{{route('admin.edit', $item->id)}}" class="btn btn-phoenix-success me-1 mb-1" type="button">
-                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M12 12C15.31 12 18 9.31 18 6C18 2.69 15.31 0 12 0C8.69 0 6 2.69 6 6C6 9.31 8.69 12 12 12ZM12 14C8.67 14 0 15.67 0 19V22H24V19C24 15.67 15.33 14 12 14ZM19 15.5H21V20.5H19V18H16V20.5H14V15.5H16V17.5H19V15.5ZM21 11H23V7H21V9H18V7H16V11H18V9H21V11Z" fill="#000000" />
-                                                    </svg>
+                                                @if($item->id !== auth()->user()->id)
+                                                    <a href="{{route('admin.edit', $item->id)}}" class="btn btn-phoenix-success me-1 mb-1" type="button">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M12 12C15.31 12 18 9.31 18 6C18 2.69 15.31 0 12 0C8.69 0 6 2.69 6 6C6 9.31 8.69 12 12 12ZM12 14C8.67 14 0 15.67 0 19V22H24V19C24 15.67 15.33 14 12 14ZM19 15.5H21V20.5H19V18H16V20.5H14V15.5H16V17.5H19V15.5ZM21 11H23V7H21V9H18V7H16V11H18V9H21V11Z" fill="#000000" />
+                                                        </svg>
 
-                                                </a>
+                                                    </a>
+                                                @endif
+
                                             </div>
                         </div>
                         </td>
@@ -141,7 +144,7 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            Swal.fire(data.success, "", "success").then(() => {
+                            Swal.fire(data.message, "", "success").then(() => {
                                 location.reload();
                             });
                         })

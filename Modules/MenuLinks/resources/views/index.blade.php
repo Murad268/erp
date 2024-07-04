@@ -15,10 +15,7 @@
                             <div class="self-center col-span-12 lg:col-span-6">
                                 @sessionMessages
                                 <div style="display: flex; column-gap: 10px" class="dataTables_length" id="alternativePagination_length">
-                                    <a href="{{route('menulinks.create')}}" style="display: flex; justify-content: center; align-items: center; cursor: pointer" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">Əlavə et</a>
-                                    <a data-link="/api/menulinks/delete_selected_items" style="cursor: pointer" type="button" class="delete-all px-4 py-3 text-sm text-purple-500 border border-purple-200 rounded-md bg-purple-50 dark:bg-purple-400/20 dark:border-purple-500/50">
-                                        Seçilənləri sil
-                                    </a>
+
                                     <label>
                                     </label>
                                 </div>
@@ -144,7 +141,7 @@
                         })
                             .then(response => response.json())
                             .then(data => {
-                                Swal.fire(data.success, "", "success").then(() => {
+                                Swal.fire(data.message, "", "success").then(() => {
                                     location.reload();
                                 });
                             })

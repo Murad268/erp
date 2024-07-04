@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'checkpermission' =>  \App\Http\Middleware\CheckUserPermission::class
+            'checkpermission' =>  \App\Http\Middleware\CheckUserPermission::class,
+            'web' => \App\Http\Middleware\RedirectIfAuthenticated::class
         ]);
 
     })

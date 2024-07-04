@@ -7,7 +7,7 @@
             <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
                 <div class="grow">
                     <h5 class="text-16">{{auth()->user()->name}}</h5>
-                    <span>isci</span>
+                    <span>{{auth()->user()->role->title}}</span>
                 </div>
             </div>
             <div class="grid grid-cols-1 gap-x-5 xl:grid-cols-10">
