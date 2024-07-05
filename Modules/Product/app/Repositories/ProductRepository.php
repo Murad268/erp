@@ -48,12 +48,11 @@ class ProductRepository
 
     public function filter($filters, $perPage, $order = null)
     {
-        if($order != null) {
+        if ($order != null) {
             $query = $order->products()->newQuery();
         } else {
             $query = $this->modelClass::query();
         }
-
 
         if (isset($filters['q'])) {
             $query->where(function ($q) use ($filters) {
@@ -71,9 +70,21 @@ class ProductRepository
         }
 
         if (isset($filters['method']) && $filters['method'] === 'or') {
-            // Add OR logic if needed
+            $query->orWhere(function ($q) use ($filters) {
+                if (isset($filters['supplier'])) {
+                    $q->orWhere('supplier_id', $filters['supplier']);
+                }
+                if (isset($filters['category'])) {
+                    $q->orWhere('category_id', $filters['category']);
+                }
+            });
         } else {
-            // Default to AND logic
+            if (isset($filters['supplier'])) {
+                $query->where('supplier_id', $filters['supplier']);
+            }
+            if (isset($filters['category'])) {
+                $query->where('category_id', $filters['category']);
+            }
         }
 
         return $query->paginate($perPage);
