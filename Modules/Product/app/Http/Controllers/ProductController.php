@@ -56,7 +56,7 @@ class ProductController extends Controller
         return $this->executeSafely(function() use ($request) {
             $data = $request->all();
             $this->crudService->create($this->productRepository->getModel(), $data);
-            return redirect()->route('product.index')->with('status', 'Product successfully created.');
+            return redirect()->route('product.index')->with('status', 'Məhsul uğurla əlavə edildi');
         }, 'product.index');
     }
 
@@ -76,7 +76,7 @@ class ProductController extends Controller
         return $this->executeSafely(function() use ($request, $product) {
             $data = $request->all();
             $this->crudService->update($product, $data);
-            return redirect()->route('product.index')->with('status', 'Product successfully updated.');
+            return redirect()->route('product.index')->with('status', 'Məhsul uğurla yeniləndi');
         }, 'product.index');
     }
 
@@ -86,7 +86,7 @@ class ProductController extends Controller
         return $this->executeSafely(function() use ($request) {
             $models = $this->productRepository->findWhereInGet($request->ids);
             $this->removeService->deleteWhereIn($models);
-            return response()->json(['success' => true, 'message' => 'Product successfully deleted.']);
+            return response()->json(['success' => true, 'message' => 'Məhsul uğurla silindi']);
         });
     }
 }
