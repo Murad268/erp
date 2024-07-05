@@ -29,6 +29,7 @@
                                 <option value="{{ $permission->id }}">{{ $permission->title }}</option>
                                 @endforeach
                             </select>
+                            @error('permission')
                         </div>
                         <button type="submit" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
                             Əlavə et

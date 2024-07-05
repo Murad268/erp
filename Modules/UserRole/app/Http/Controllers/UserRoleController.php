@@ -51,7 +51,7 @@ class UserRoleController extends Controller
         return view('userrole::show');
     }
 
-    public function edit($id)
+    public function edit($id = null)
     {
         $permissions = $this->permissionRepository->all();
         $userRole = $this->userRoleRepository->find($id);
@@ -68,10 +68,7 @@ class UserRoleController extends Controller
         }, 'userrole.index');
     }
 
-    public function destroy($id)
-    {
-        // Implement destroy functionality if needed
-    }
+
 
     public function delete_selected_items(Request $request)
     {

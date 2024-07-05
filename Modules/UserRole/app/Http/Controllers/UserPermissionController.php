@@ -8,6 +8,7 @@ use App\Services\RemoveService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Modules\MenuLinks\Repositories\MenuLinkRepository;
+use Modules\UserRole\Http\Requests\UserPermissionRequest;
 use Modules\UserRole\Models\RolePermission;
 use Modules\UserRole\Repositories\PermissionRepository;
 use Modules\UserRole\Repositories\UserRoleRepository;
@@ -22,14 +23,15 @@ class UserPermissionController extends Controller
         protected RemoveService $removeService
     ) {}
 
-    public function index($id)
+    public function index($id = null)
     {
+
         $role = $this->userRoleRepository->find($id);
         $items = $this->menuLinkRepository->all();
         return view('userrole::permission.index', compact('items', 'id', 'role'));
     }
 
-    public function create($role_id)
+    public function create($role_id = null)
     {
         $links = $this->menuLinkRepository->all();
         $permissions = $this->permissionRepository->all();
@@ -37,7 +39,7 @@ class UserPermissionController extends Controller
         return view('userrole::permission.create', compact('links', 'permissions', 'role_id', 'role'));
     }
 
-    public function store(Request $request, $id): RedirectResponse
+    public function store(UserPermissionRequest $request, $id  = null): RedirectResponse
     {
         return $this->executeSafely(function() use ($request, $id) {
             $permissions = $request->permission($id);
@@ -57,14 +59,14 @@ class UserPermissionController extends Controller
 
 
 
-    public function edit($id, $page_id)
+    public function edit($id, $page_id = null)
     {
         $permissions = $this->permissionRepository->all();
         $page = $this->menuLinkRepository->find($page_id);
         return view('userrole::permission.edit', compact('permissions', 'id', 'page', 'page_id'));
     }
 
-    public function update(Request $request, $id, $page_id): RedirectResponse
+    public function update(UserPermissionRequest $request, $id, $page_id): RedirectResponse
     {
         return $this->executeSafely(function() use ($request, $id, $page_id) {
             $page = $this->menuLinkRepository->find($page_id);
@@ -90,8 +92,5 @@ class UserPermissionController extends Controller
         }, 'permission.list');
     }
 
-    public function destroy($id)
-    {
-        // Implement the destroy logic if needed
-    }
+
 }
