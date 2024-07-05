@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\MenuLinks\Models\Menu;
 
 class MenuLinksSeeder extends Seeder
 {
@@ -28,7 +29,7 @@ class MenuLinksSeeder extends Seeder
         ];
 
         foreach ($menuLinks as $link) {
-            \App\Models\MenuLinks::create($link);
+            Menu::create($link);
         }
     }
 }
