@@ -22,7 +22,7 @@ class MenuLinksSeeder extends Seeder
             ['id' => 6, 'title' => 'İstifadəçi rolları', 'slug' => 'userrole', 'code' => 'user'],
             ['id' => 7, 'title' => 'Adminlər', 'slug' => 'admin', 'code' => 'user'],
             ['id' => 8, 'title' => 'Gəlirlər', 'slug' => 'income', 'code' => 'finance'],
-            ['id' => 9, 'title' => 'Xərclər', 'slug' => 'expence', 'code' => 'finance'],
+            ['id' => 9, 'title' => 'Xərclər', 'slug' => 'expense', 'code' => 'finance'],
             ['id' => 10, 'title' => 'Maliyyə Hesabatı', 'slug' => 'financialreport', 'code' => 'finance'],
             ['id' => 11, 'title' => 'Faktura', 'slug' => 'invoice', 'code' => 'finance'],
             ['id' => 14, 'title' => 'Ödənişlər', 'slug' => 'payment', 'code' => 'finance']

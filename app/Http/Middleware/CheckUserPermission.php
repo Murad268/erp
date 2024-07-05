@@ -21,11 +21,11 @@ class CheckUserPermission
     {
 
     }
-    public function handle(Request $request, Closure $next, $pageId=null, $permissionId=null)
+    public function handle(Request $request, Closure $next,  $pageId=null, $permissionId=null)
     {
         if ($this->permissionHelper->hasPermission( $pageId, $permissionId)) {
             return $next($request);
         }
-        return redirect('/');
+        return redirect('/dashboard');
     }
 }
