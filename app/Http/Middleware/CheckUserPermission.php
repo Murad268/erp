@@ -26,6 +26,6 @@ class CheckUserPermission
         if ($this->permissionHelper->hasPermission( $pageId, $permissionId)) {
             return $next($request);
         }
-        return redirect('/dashboard');
+        return redirect('/');
     }
 }

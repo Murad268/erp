@@ -46,7 +46,7 @@ class LoginController extends Controller
             }
 
             if (Auth::attempt($credentials, $remember)) {
-                return redirect()->intended('/dashboard');
+                return redirect()->intended('/');
             }
 
             return redirect()->back()->with('error', 'İstifadəçi adı və ya şifrə yanlışdır.');
