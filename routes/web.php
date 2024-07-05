@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['middleware' => ['guest']], function () {
+Route::group(['middleware' => ['web']], function () {
     Route::get('/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login-form');
     Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('login');
 
@@ -20,6 +20,6 @@ Route::group(['middleware' => ['guest']], function () {
 Route::get('/reset-password/{token}', [\App\Http\Controllers\ForgotPasswordController::class, 'showResetForm'])->name('reset-password-form');
 Route::post('/reset-password', [\App\Http\Controllers\ForgotPasswordController::class, 'reset'])->name('reset-password');
 
-Route::get('/dashboard', [\App\Http\Controllers\SystemController::class, 'index'])->name('dashboard');
+Route::get('/', [\App\Http\Controllers\SystemController::class, 'index'])->name('dashboard')->middleware('auth');
 
 Route::get('/logout', [\App\Http\Controllers\LogoutController::class, 'logout'])->name('logout');
