@@ -20,6 +20,6 @@ Route::group(['middleware' => ['guest']], function () {
 Route::get('/reset-password/{token}', [\App\Http\Controllers\ForgotPasswordController::class, 'showResetForm'])->name('reset-password-form');
 Route::post('/reset-password', [\App\Http\Controllers\ForgotPasswordController::class, 'reset'])->name('reset-password');
 
-Route::get('/dashboard', [\App\Http\Controllers\SystemController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/', [\App\Http\Controllers\SystemController::class, 'index'])->middleware('auth')->name('dashboard');
 
 Route::get('/logout', [\App\Http\Controllers\LogoutController::class, 'logout'])->name('logout');
